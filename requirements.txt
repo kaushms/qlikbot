@@ -1,0 +1,12 @@
+openai
+langchain
+tiktoken
+PyPDF2
+qdrant_client
+PyCryptodome
+streamlit
+htmlTemplate
+InstructorEmbedding
+sentence-transformers
+faiss-cpu
+python-dotenv
