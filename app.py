@@ -27,18 +27,17 @@ def get_vector_store():
 
     return vector_store
 
-    
 
 def main():
     load_dotenv()
     
-    st.set_page_config(page_title="Ask Qdrant")
+    st.set_page_config(page_title="Your personal QlikBot")
     st.header("Ask your QlikCheatsheet 💬")
     
     # create vector store
     vector_store = get_vector_store()
     
-    # create chain 
+    # create chain s
     qa = RetrievalQA.from_chain_type(
         llm=OpenAI(),
         chain_type="stuff",
@@ -46,7 +45,7 @@ def main():
     )
 
     # show user input
-    user_question = st.text_input("Ask a question about your PDF:")
+    user_question = st.text_input("Ask a question about Qlik:")
     if user_question:
         st.write(f"Question: {user_question}")
         answer = qa.run(user_question)
