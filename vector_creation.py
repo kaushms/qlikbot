@@ -8,10 +8,6 @@ from langchain.text_splitter import CharacterTextSplitter
 import qdrant_client
 import os
 
-
-os.environ['QDRANT_HOST'] = "https://f7fe3590-9b3d-400f-b8ff-8c6aa50d3b6a.eu-central-1-0.aws.cloud.qdrant.io"
-os.environ['QDRANT_API_KEY'] = "RdnriNBkmD9HpgKXPVpppZCgG7vxNJrXcIAbSPmRXsZkooZdlKaopw"
-
 #create a qdrant client
 
 client = qdrant_client.QdrantClient(
@@ -22,7 +18,6 @@ client = qdrant_client.QdrantClient(
 
 # create a collection
 
-os.environ['QDRANT_COLLECTION_NAME'] = "cheatsheet-collection"
 
 vectors_config = qdrant_client.http.models.VectorParams(
     size = 1536, 
@@ -37,7 +32,6 @@ client.recreate_collection(
 
 #vector store
 
-os.environ["OPENAI_API_KEY"]="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"
 
 embeddings = OpenAIEmbeddings()
 
