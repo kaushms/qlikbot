@@ -32,7 +32,7 @@ def main():
     load_dotenv()
     
     st.set_page_config(page_title="Your personal QlikBot")
-    st.header("Ask your Qlikbotgit branch 💬")
+    st.header("Ask your Qlikbot 💬")
     
     # create vector store
     vector_store = get_vector_store()
