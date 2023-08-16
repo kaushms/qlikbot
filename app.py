@@ -32,7 +32,7 @@ def main():
     load_dotenv()
     
     st.set_page_config(page_title="Your personal QlikBot")
-    st.header("Ask your QlikCheatsheet 💬")
+    st.header("Ask your Qlikbot 🤖")
     
     # create vector store
     vector_store = get_vector_store()
@@ -45,7 +45,7 @@ def main():
     )
 
     # show user input
-    user_question = st.text_input("Ask a question about Qlik:")
+    user_question = st.text_input("Ask a question about Qlik front end functions:")
     if user_question:
         st.write(f"Question: {user_question}")
         answer = qa.run(user_question)
