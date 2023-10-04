@@ -8,6 +8,8 @@ from langchain.embeddings.openai import OpenAIEmbeddings
 import qdrant_client
 import os
 import streamlit as st
+from langchain.agents.agent_toolkits import create_conversational_retrieval_agent
+from langchain.agents.agent_toolkits import create_retriever_tool
 
 footer="""<style>
 a:link , a:visited{
@@ -58,6 +60,7 @@ def get_vector_store():
     return vector_store
 
 
+
 def main():
     load_dotenv()
     st.set_page_config(page_title="Your personal QlikBot")
@@ -68,24 +71,33 @@ def main():
     vector_store = get_vector_store()
     
     # create chain s
-    qa = RetrievalQA.from_chain_type(
-        llm=ChatOpenAI(model="gpt-3.5-turbo", temperature=0, verbose=True),
-        chain_type="stuff",
-        retriever=vector_store.as_retriever()
-    )
+    # qa = RetrievalQA.from_chain_type(
+    #     llm=ChatOpenAI(model="gpt-3.5-turbo"),
+    #     chain_type="stuff",
+    #     retriever=vector_store.as_retriever()
+    # )
+
+    retriever=vector_store.as_retriever()
+    tool = create_retriever_tool(
+    retriever, 
+    "search_qlik-cheatsheet",
+    "Searches and returns answers regarding Qlik."
+)
+    tools = [tool]
+
+    llm = ChatOpenAI(temperature = 0, model="gpt-3.5-turbo")
+    agent_executor = create_conversational_retrieval_agent(llm, tools, verbose= True)
 
     # show user input
     user_question = st.text_input("Ask a question about Qlik front end functions:")
     if user_question:
-        st.write(f"Question: {user_question}")
-        answer = qa.run(user_question)
-        st.write(f"Answer: {answer}")
+        st.write(f"question: {user_question}")
+        answer =agent_executor(user_question)
+        # msg = answer.choices[0].message
+        # st.session_state.messages.append(msg)
+        # st.chat_message("assistant").write(msg.content)
+        st.write(f"answer:{answer}")
 
-
-
-    
-    
- 
         
 if __name__ == '__main__':
     main()
