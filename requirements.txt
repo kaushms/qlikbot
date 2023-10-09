@@ -10,3 +10,4 @@ InstructorEmbedding
 sentence-transformers
 faiss-cpu
 python-dotenv
+htbuilder
