@@ -67,8 +67,6 @@ def get_vector_store():
 
     return vector_store
 
-
-
 def main():
     load_dotenv()
     st.set_page_config(page_title="Your personal QlikBot")
@@ -130,12 +128,9 @@ def main():
         with st.chat_message(message["role"]):
          st.write(message["content"])
 
-
     # instantiate agent
     agent = OpenAIFunctionsAgent(llm=llm, tools=tools, prompt=prompt_template)
     agent_executor = AgentExecutor(agent=agent, tools=tools, memory=st.session_state.memory, verbose=True)  
-
-
 
 
     # Pass query to chat engine and display response
@@ -148,16 +143,5 @@ def main():
             message = {"role": "assistant", "content": response["output"]}
             st.session_state.messages.append(message) # Add response to message history
 
-    # # show user input
-    # user_question = st.text_input("Ask a question about Qlik front end functions:")
-    # if user_question:
-    #     st.write(f"question: {user_question}")
-    #     answer =agent_executor(user_question)
-    #     # msg = answer.choices[0].message
-    #     # st.session_state.messages.append(msg)
-    #     # st.chat_message("assistant").write(msg.content)
-    #     st.write(f"answer:{answer}")
-
-        
 if __name__ == '__main__':
     main()
