@@ -1,10 +1,8 @@
 from dotenv import load_dotenv
 import streamlit as st
-from langchain.chat_models import ChatOpenAI
-from langchain.chains import RetrievalQA
-from langchain.llms import OpenAI
-from langchain.vectorstores import Qdrant
-from langchain.embeddings.openai import OpenAIEmbeddings
+from langchain_openai import ChatOpenAI
+from langchain_community.vectorstores import Qdrant
+from langchain_community.embeddings import OpenAIEmbeddings
 # used to create the memory
 from langchain.memory import ConversationBufferMemory
 # used to create the prompt template
@@ -19,34 +17,7 @@ import streamlit as st
 from langchain.agents.agent_toolkits import create_conversational_retrieval_agent
 from langchain.agents.agent_toolkits import create_retriever_tool
 
-footer="""<style>
-a:link , a:visited{
-color: blue;
-background-color: transparent;
-text-decoration: underline;
-}
 
-a:hover,  a:active {
-color: red;
-background-color: transparent;
-text-decoration: underline;
-}
-
-.footer {
-position: fixed;
-left: 0;
-bottom: 0;
-width: 100%;
-background-color: white;
-color: black;
-text-align: center;
-}
-</style>
-<div class="footer">
-<p>Developed with ❤️ by <a style='display: block; text-align: center;' href="https://www.youtube.com/@thinkmetrics/videos" target="_blank"> Thinkmetrics </a>
-<a> Email: thinkmetrics@gmail.com </a></p>
-</div>
-"""
 
 def get_vector_store():
 
@@ -72,7 +43,51 @@ def main():
     st.set_page_config(page_title="Your personal QlikBot")
     st.header("Ask Qlik bot 🤖")
     st.caption("Your AI Powered Qlik helper")
-    st.markdown(footer,unsafe_allow_html=True)
+     # Add footer information to the sidebar
+    with st.sidebar:
+        st.markdown("""
+    <style>
+    .sidebar-footer {
+        background-color: #f8f9fa;
+        color: #333;
+        text-align: center;
+        padding: 20px;
+        border-radius: 10px;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        margin-top: 20px;
+    }
+    .sidebar-footer a {
+        color: #007bff;
+        text-decoration: none;
+        font-weight: bold;
+    }
+    .sidebar-footer a:hover {
+        text-decoration: underline;
+    }
+    .sidebar-footer p {
+        margin: 5px 0;
+    }
+    </style>
+    <div class="sidebar-footer">
+        <p>Developed with ❤️ by</p>
+        <p><a href="https://www.youtube.com/@thinkmetrics/videos" target="_blank">Thinkmetrics</a></p>
+        <p><a href="mailto:thinkmetrics@gmail.com">thinkmetrics@gmail.com</a></p>
+    </div>
+    """, unsafe_allow_html=True)
+
+    # Add a horizontal line separator
+    st.sidebar.markdown("---")
+
+    # # Add a section for additional sidebar content
+    # st.sidebar.subheader("Additional Options")
+    # option1 = st.sidebar.checkbox("Option 1")
+    # option2 = st.sidebar.checkbox("Option 2")
+
+    # # Add a button
+    # if st.sidebar.button("Click me!"):
+    #     st.sidebar.write("Button clicked!")
+
+
     # create vector store
     vector_store = get_vector_store()
     
@@ -142,6 +157,8 @@ def main():
             st.write(response["output"])
             message = {"role": "assistant", "content": response["output"]}
             st.session_state.messages.append(message) # Add response to message history
+
+
 
 if __name__ == '__main__':
     main()
