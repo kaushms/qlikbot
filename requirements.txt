@@ -11,5 +11,6 @@ sentence-transformers
 faiss-cpu
 python-dotenv
 htbuilder
-langchain_community
+langchain-community
+langchain-openai
 
