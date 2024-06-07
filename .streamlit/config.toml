@@ -4,7 +4,7 @@ primaryColor = '#101820' # Bright Orange
 
 backgroundColor = '#17252A' # Dark Blue
 
-secondaryBackgroundColor = '#FEE715' # Lighter Blue
+secondaryBackgroundColor = '#878787' # Lighter Blue
 
 # Color used for almost all text
 textColor = "#FBFBFB"
