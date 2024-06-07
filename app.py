@@ -40,9 +40,23 @@ def get_vector_store():
 
 def main():
     load_dotenv()
-    st.set_page_config(page_title="Your personal QlikBot")
-    st.header("Ask Qlik bot 🤖")
+
+    if 'example_question' not in st.session_state:
+        st.session_state.example_question = ""
+
+
+    st.set_page_config(page_title="Your personal QlikBot", page_icon="🤖")
+    st.title("🚀 Qlik Bot: Your Qlik Assistant 🤖")
     st.caption("Your AI Powered Qlik helper")
+    
+# Define example questions
+    example_questions = [
+    "Set expression for last 12 months sales",
+    "calculate max  sales per customer & country",
+    "How to use conditional symbols",
+    "Tell me a funny data joke"
+    ]
+
      # Add footer information to the sidebar
     with st.sidebar:
         st.markdown("""
@@ -136,8 +150,25 @@ def main():
     llm = ChatOpenAI(temperature = 0, model="gpt-3.5-turbo")
 
     # Prompt for user input and display message history
-    if prompt := st.chat_input("Ask a question about Qlik front end functions:"): # Prompt for user input and save to chat history
+    if prompt := st.text_input("How can I help you today?", value=st.session_state.example_question):
+
+        #prompt := st.chat_input("Ask a question about Qlik front end functions:"): # Prompt for user input and save to chat history
         st.session_state.messages.append({"role": "user", "content": prompt})
+        with st.chat_message("user"):
+            st.markdown(prompt)
+        # Display example questions as buttons in a horizontal layout
+    st.markdown("<h6>Example Questions</h6>", unsafe_allow_html=True)  # Using h4 for a smaller header
+    cols = st.columns(len(example_questions))
+    for col, question in zip(cols, example_questions):
+        if col.button(question):
+            st.session_state.example_question = question
+            st.experimental_rerun()
+
+# Check if an example question was selected
+    if st.session_state.example_question:
+        prompt = st.session_state.example_question
+        st.session_state.example_question = ""
+
 
     for message in st.session_state.messages: # Display the prior chat messages
         with st.chat_message(message["role"]):
