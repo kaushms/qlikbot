@@ -1,15 +1,7 @@
 [theme] # You have to add this line
 
-primaryColor = '#101820' # Bright Orange
+primaryColor = '#8AAAE5' # Bright Orange
 
-backgroundColor = '#17252A' # Dark Blue
+backgroundColor = '#FFFFFF' # Dark Blue
 
-secondaryBackgroundColor = '#878787' # Lighter Blue
-
-# Color used for almost all text
-textColor = "#FBFBFB"
-
-# Font family for all text in the app, except code blocks
-# Accepted values (serif | sans serif | monospace) 
-# Default: "sans serif"
-font = "sans serif"
+secondaryBackgroundColor = '#6FDCE3' # Lighter Blue
