@@ -162,7 +162,8 @@ def main():
     for col, question in zip(cols, example_questions):
         if col.button(question):
             st.session_state.example_question = question
-            st.experimental_rerun()
+            st.rerun()
+            #st.experimental_rerun()
 
 # Check if an example question was selected
     if st.session_state.example_question:
