@@ -5,3 +5,9 @@ primaryColor = '#8AAAE5' # Bright Orange
 backgroundColor = '#FFFFFF' # Dark Blue
 
 secondaryBackgroundColor = '#6FDCE3' # Lighter Blue
+
+# Font family for all text in the app, except code blocks
+# Accepted values (serif | sans serif | monospace) 
+# Default: "sans serif"
+font = "sans serif"
+
