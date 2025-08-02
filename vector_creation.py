@@ -1,11 +1,6 @@
 from dotenv import load_dotenv
-#import streamlit as st
-#from langchain_community.document_loaders import TextLoader
-#from langchain.document_loaders import TextLoader
-#from langchain_openai import OpenAI
 import pdfplumber
 from  langchain_openai import OpenAIEmbeddings
-#from langchain.embeddings import HuggingFaceEmbeddings
 from langchain.text_splitter import CharacterTextSplitter
 from qdrant_client import QdrantClient
 from qdrant_client.http.models import Distance, VectorParams, models
