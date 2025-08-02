@@ -10,3 +10,5 @@ InstructorEmbedding
 sentence-transformers
 faiss-cpu
 python-dotenv
+firebase_admin
+st-paywall
