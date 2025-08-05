@@ -62,43 +62,56 @@ def display_chat():
 
 def main():
     load_dotenv()
-    st.set_page_config(page_title="Your personal QlikBot", layout="centered")
+ 
+st.set_page_config(page_title="Your personal QlikBot", layout="wide")
+st.markdown(css, unsafe_allow_html=True)
+
+def main():
+    load_dotenv()
+    st.set_page_config(page_title="QlikBot", layout="wide")
     st.markdown(css, unsafe_allow_html=True)
 
-    st.header("Ask your QlikCheatsheet 💬")
-
-    # Initialize session state
+    # Setup chat session
     if "conversation" not in st.session_state:
-        vector_store = get_vector_store()
-        st.session_state.conversation = get_conversation_chain(vector_store)
+        st.session_state.conversation = get_conversation_chain(get_vector_store())
     if "chat_history" not in st.session_state:
         st.session_state.chat_history = []
 
-    # Display existing chat history
-    display_chat()
+    # Page header
+    st.markdown("<h1 style='text-align: center;color: #bd5d3a;'>Qlik AI Assistant</h1>", unsafe_allow_html=True)
+    st.markdown("<p style='text-align: center; color: gray;'>Your personal Qlik helper</p>", unsafe_allow_html=True)
+    #st.markdown("<h1 style='text-align: center; color: #da7756; font-family: ui-serif, Georgia, serif; font-size: 2.8rem; font-weight: 700;'>Qlik AI Assistant</h1>", unsafe_allow_html=True)
+    #st.markdown("<p style='text-align: center; color: #3d3929; font-family: ui-serif, Georgia, serif; opacity: 0.75;'>Your personal Qlik helper</p>", unsafe_allow_html=True)
+    # Layout: Sidebar (narrow) + Main panel
+    col1, col2, col3 = st.columns([2, 5, 2])  # Sidebar | Main | Spacer
 
-    # Chat input at the bottom
-    user_input = st.chat_input("Ask a question about Qlik...")
+    # -- Left column (Chat history) --
+    with col1:
+        st.markdown("### 💬 History")
+        if st.session_state.chat_history:
+            for i, msg in enumerate(st.session_state.chat_history):
+                sender = "You" if i % 2 == 0 else "Bot"
+                st.markdown(f"- **{sender}**: {msg.content[:40]}...")
 
-    if user_input:
-        # Show user message
-        with st.chat_message("user"):
-            st.markdown(user_input)
+    # -- Center column (Chat UI) --
+    with col2:
+        display_chat()  # Render using your bot_template/user_template
 
-        # Placeholder for assistant's streaming response
-        with st.chat_message("assistant"):
-            response_placeholder = st.empty()
-            stream_handler = StreamlitCallbackHandler(response_placeholder)
+        user_input = st.chat_input("Ask a question about Qlik...")
+        if user_input:
+            with st.chat_message("user"):
+                st.markdown(user_input)
 
-            # Run conversation with streaming callback
-            response = st.session_state.conversation(
-                {"question": user_input},
-                callbacks=[stream_handler]
-            )
+            with st.chat_message("assistant"):
+                placeholder = st.empty()
+                handler = StreamlitCallbackHandler(placeholder)
+                response = st.session_state.conversation(
+                    {"question": user_input},
+                    callbacks=[handler]
+                )
 
-        # Update chat history and rerun to show updated chat
-        st.session_state.chat_history = response['chat_history']
-        st.rerun()
+            st.session_state.chat_history = response["chat_history"]
+            st.rerun()
 
 if __name__ == '__main__':
     main()
