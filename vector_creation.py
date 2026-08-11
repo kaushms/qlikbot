@@ -67,7 +67,8 @@ vector_store = Qdrant.from_texts(
     embedding=embeddings,
     url=url,
     api_key=api_key,
-    collection_name=collection_name
+    collection_name=collection_name,
+    force_recreate=True
 )
 
 # #create a qdrant client
